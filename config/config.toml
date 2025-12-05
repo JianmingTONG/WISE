@@ -1,0 +1,5 @@
+[fhe]
+log_N = 16
+scale_mod_size = 40
+first_mod_size = 46
+mult_depth = 10

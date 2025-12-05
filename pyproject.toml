@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sagittarius"
+version = "0.1.0"
+dependencies = [
+    "numpy",
+    "torch",
+    "scipy",
+    "torchvision",
+    "matplotlib",
+    "einops",
+    "tqdm",
+    "pybind11"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

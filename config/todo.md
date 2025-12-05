@@ -1,0 +1,3 @@
+- lola
+- mnist
+- resnet-34 in openfhe @ hestd_notset

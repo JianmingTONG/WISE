@@ -1,0 +1,695 @@
+multiplicative depth: 32
+EvalBootstrapSetup with level_budget: [ 4 4 ]
+q_0: 1152921504606584833,  log q_0: 60
+q_1: 576460752254795777,  log q_1: 59
+q_2: 576460752347332609,  log q_2: 59
+q_3: 576460752259645441,  log q_3: 59
+q_4: 576460752347201537,  log q_4: 59
+q_5: 576460752260694017,  log q_5: 59
+q_6: 576460752342876161,  log q_6: 59
+q_7: 576460752265543681,  log q_7: 59
+q_8: 576460752340123649,  log q_8: 59
+q_9: 576460752267509761,  log q_9: 59
+q_10: 576460752337502209,  log q_10: 59
+q_11: 576460752272228353,  log q_11: 59
+q_12: 576460752331210753,  log q_12: 59
+q_13: 576460752273801217,  log q_13: 59
+q_14: 576460752329900033,  log q_14: 59
+q_15: 576460752279306241,  log q_15: 59
+q_16: 576460752329506817,  log q_16: 59
+q_17: 576460752284418049,  log q_17: 59
+q_18: 576460752329113601,  log q_18: 59
+q_19: 576460752286253057,  log q_19: 59
+q_20: 576460752328327169,  log q_20: 59
+q_21: 576460752289005569,  log q_21: 59
+q_22: 576460752325705729,  log q_22: 59
+q_23: 576460752289529857,  log q_23: 59
+q_24: 576460752321642497,  log q_24: 59
+q_25: 576460752289923073,  log q_25: 59
+q_26: 576460752319414273,  log q_26: 59
+q_27: 576460752298180609,  log q_27: 59
+q_28: 576460752319021057,  log q_28: 59
+q_29: 576460752298835969,  log q_29: 59
+q_30: 576460752315482113,  log q_30: 59
+q_31: 576460752300015617,  log q_31: 59
+q_32: 576460752308273153,  log q_32: 59
+q_33: 1152921504598720513,  log q_33: 60
+q_34: 1152921504597016577,  log q_34: 60
+q_35: 1152921504595968001,  log q_35: 60
+q_36: 1152921504592822273,  log q_36: 60
+q_37: 1152921504592429057,  log q_37: 60
+q_38: 1152921504589938689,  log q_38: 60
+q_39: 1152921504586530817,  log q_39: 60
+q_40: 1152921504583647233,  log q_40: 60
+q_41: 1152921504581419009,  log q_41: 60
+q_42: 1152921504580894721,  log q_42: 60
+q_43: 1152921504578666497,  log q_43: 60
+Total bit length: 2608
+encrypt at level: 30
+encrypt at level: 30
+encrypt at level: 30
+encrypt at level: 30
+encrypt at level: 30
+linear transform @ level=30
+  total time: 61.9223s
+  pack time: 32.0671s
+  num_adds: 9811
+  num_mults: 9836
+  num_rots: 315
+
+bootstrap batch of size 25
+  total time: 585.256s
+
+nonlinear @ level=22
+  total time: 22.556s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=29
+  total time: 27.6074s
+  pack time: 4.84041s
+  num_adds: 1118
+  num_mults: 1125
+  num_rots: 557
+
+linear transform @ level=30
+  total time: 92.4s
+  pack time: 43.8238s
+  num_adds: 12302
+  num_mults: 12309
+  num_rots: 273
+
+bootstrap batch of size 7
+  total time: 156.245s
+
+nonlinear @ level=22
+  total time: 8.28137s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 80.994s
+  pack time: 39.8007s
+  num_adds: 12302
+  num_mults: 12309
+  num_rots: 273
+
+bootstrap batch of size 7
+  total time: 155.874s
+
+nonlinear @ level=22
+  total time: 8.27244s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 80.953s
+  pack time: 39.7764s
+  num_adds: 12302
+  num_mults: 12309
+  num_rots: 273
+
+bootstrap batch of size 7
+  total time: 155.854s
+
+nonlinear @ level=22
+  total time: 8.28821s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 81.0152s
+  pack time: 39.7799s
+  num_adds: 12302
+  num_mults: 12309
+  num_rots: 273
+
+bootstrap batch of size 7
+  total time: 155.681s
+
+nonlinear @ level=22
+  total time: 8.27399s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 81.1818s
+  pack time: 39.8383s
+  num_adds: 12302
+  num_mults: 12309
+  num_rots: 273
+
+bootstrap batch of size 7
+  total time: 155.648s
+
+nonlinear @ level=22
+  total time: 8.26585s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 81.2248s
+  pack time: 39.9168s
+  num_adds: 12302
+  num_mults: 12309
+  num_rots: 273
+
+bootstrap batch of size 7
+  total time: 156.083s
+
+nonlinear @ level=22
+  total time: 8.2731s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 29.7185s
+  pack time: 10.7413s
+  num_adds: 3329
+  num_mults: 3333
+  num_rots: 163
+
+linear transform @ level=30
+  total time: 70.7007s
+  pack time: 33.0576s
+  num_adds: 10251
+  num_mults: 10255
+  num_rots: 308
+
+bootstrap batch of size 4
+  total time: 89.0018s
+
+nonlinear @ level=22
+  total time: 4.72726s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 82.2943s
+  pack time: 44.054s
+  num_adds: 13664
+  num_mults: 13668
+  num_rots: 188
+
+bootstrap batch of size 4
+  total time: 88.9933s
+
+nonlinear @ level=22
+  total time: 4.72679s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 79.8227s
+  pack time: 44.1747s
+  num_adds: 13664
+  num_mults: 13668
+  num_rots: 188
+
+bootstrap batch of size 4
+  total time: 88.9937s
+
+nonlinear @ level=22
+  total time: 4.7268s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 79.7411s
+  pack time: 44.1018s
+  num_adds: 13664
+  num_mults: 13668
+  num_rots: 188
+
+bootstrap batch of size 4
+  total time: 89.1067s
+
+nonlinear @ level=22
+  total time: 4.73549s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 79.7566s
+  pack time: 44.1118s
+  num_adds: 13664
+  num_mults: 13668
+  num_rots: 188
+
+bootstrap batch of size 4
+  total time: 88.8888s
+
+nonlinear @ level=22
+  total time: 4.72289s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 79.8192s
+  pack time: 44.1775s
+  num_adds: 13664
+  num_mults: 13668
+  num_rots: 188
+
+bootstrap batch of size 4
+  total time: 89.0733s
+
+nonlinear @ level=22
+  total time: 4.72329s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 79.9184s
+  pack time: 44.1947s
+  num_adds: 13664
+  num_mults: 13668
+  num_rots: 188
+
+bootstrap batch of size 4
+  total time: 90.0859s
+
+nonlinear @ level=22
+  total time: 4.81246s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 80.8623s
+  pack time: 44.7133s
+  num_adds: 13664
+  num_mults: 13668
+  num_rots: 188
+
+bootstrap batch of size 4
+  total time: 89.0368s
+
+nonlinear @ level=22
+  total time: 4.76568s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 24.9128s
+  pack time: 11.3971s
+  num_adds: 3540
+  num_mults: 3542
+  num_rots: 100
+
+linear transform @ level=30
+  total time: 61.1644s
+  pack time: 32.4869s
+  num_adds: 10083
+  num_mults: 10085
+  num_rots: 188
+
+bootstrap batch of size 2
+  total time: 44.5035s
+
+nonlinear @ level=22
+  total time: 2.36626s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 66.6124s
+  pack time: 38.4965s
+  num_adds: 11904
+  num_mults: 11906
+  num_rots: 62
+
+bootstrap batch of size 2
+  total time: 44.4237s
+
+nonlinear @ level=22
+  total time: 2.36995s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 64.5575s
+  pack time: 38.4411s
+  num_adds: 11904
+  num_mults: 11906
+  num_rots: 62
+
+bootstrap batch of size 2
+  total time: 44.4168s
+
+nonlinear @ level=22
+  total time: 2.36039s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 64.7753s
+  pack time: 38.6225s
+  num_adds: 11904
+  num_mults: 11906
+  num_rots: 62
+
+bootstrap batch of size 2
+  total time: 44.5764s
+
+nonlinear @ level=22
+  total time: 2.37038s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 64.4839s
+  pack time: 38.3626s
+  num_adds: 11904
+  num_mults: 11906
+  num_rots: 62
+
+bootstrap batch of size 2
+  total time: 44.5008s
+
+nonlinear @ level=22
+  total time: 2.36813s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 64.4837s
+  pack time: 38.3353s
+  num_adds: 11904
+  num_mults: 11906
+  num_rots: 62
+
+bootstrap batch of size 2
+  total time: 44.4691s
+
+nonlinear @ level=22
+  total time: 2.36583s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 64.596s
+  pack time: 38.4619s
+  num_adds: 11904
+  num_mults: 11906
+  num_rots: 62
+
+bootstrap batch of size 2
+  total time: 44.4966s
+
+nonlinear @ level=22
+  total time: 2.36429s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 64.5171s
+  pack time: 38.4215s
+  num_adds: 11904
+  num_mults: 11906
+  num_rots: 62
+
+bootstrap batch of size 2
+  total time: 44.4253s
+
+nonlinear @ level=22
+  total time: 2.36453s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 64.4194s
+  pack time: 38.3482s
+  num_adds: 11904
+  num_mults: 11906
+  num_rots: 62
+
+bootstrap batch of size 2
+  total time: 44.4878s
+
+nonlinear @ level=22
+  total time: 2.36568s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 64.3392s
+  pack time: 38.3128s
+  num_adds: 11904
+  num_mults: 11906
+  num_rots: 62
+
+bootstrap batch of size 2
+  total time: 44.5017s
+
+nonlinear @ level=22
+  total time: 2.36553s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 64.3856s
+  pack time: 38.3701s
+  num_adds: 11904
+  num_mults: 11906
+  num_rots: 62
+
+bootstrap batch of size 2
+  total time: 46.2369s
+
+nonlinear @ level=22
+  total time: 2.47589s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 67.3964s
+  pack time: 40.2659s
+  num_adds: 11904
+  num_mults: 11906
+  num_rots: 62
+
+bootstrap batch of size 2
+  total time: 46.4621s
+
+nonlinear @ level=22
+  total time: 2.47485s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 20.0852s
+  pack time: 9.85083s
+  num_adds: 2912
+  num_mults: 2914
+  num_rots: 62
+
+linear transform @ level=30
+  total time: 80.6829s
+  pack time: 46.3095s
+  num_adds: 13665
+  num_mults: 13667
+  num_rots: 110
+
+bootstrap batch of size 2
+  total time: 48.214s
+
+nonlinear @ level=22
+  total time: 2.41224s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 243.828s
+  pack time: 111.911s
+  num_adds: 31494
+  num_mults: 31496
+  num_rots: 190
+
+bootstrap batch of size 2
+  total time: 64.6388s
+
+nonlinear @ level=22
+  total time: 2.48613s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 226.495s
+  pack time: 109.107s
+  num_adds: 31494
+  num_mults: 31496
+  num_rots: 190
+
+bootstrap batch of size 2
+  total time: 79.6583s
+
+nonlinear @ level=22
+  total time: 2.47657s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 241.634s
+  pack time: 112.114s
+  num_adds: 31494
+  num_mults: 31496
+  num_rots: 190
+
+bootstrap batch of size 2
+  total time: 72.4653s
+
+nonlinear @ level=22
+  total time: 2.40849s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 344.115s
+  pack time: 112.827s
+  num_adds: 31494
+  num_mults: 31496
+  num_rots: 190
+
+bootstrap batch of size 2
+  total time: 84.9656s
+
+nonlinear @ level=22
+  total time: 2.52045s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=30
+  total time: 294.585s
+  pack time: 107.525s
+  num_adds: 31494
+  num_mults: 31496
+  num_rots: 190
+
+bootstrap batch of size 2
+  total time: 79.2903s
+
+nonlinear @ level=22
+  total time: 2.37947s
+  pack time: 0s
+  num_adds: 0
+  num_mults_cc: 0
+  num_mults_cp: 0
+  num_rots: 0
+
+linear transform @ level=29
+  total time: 1.18244s
+  pack time: 0.261726s
+  num_adds: 63
+  num_mults: 64
+  num_rots: 6
+
+linear transform @ level=30
+  total time: 10.9907s
+  pack time: 3.39142s
+  num_adds: 1023
+  num_mults: 1024
+  num_rots: 31
+
+[-1.08591403e+00 -4.52135887e-01  2.27377812e+00 ... -3.16696409e-02
+  1.77608759e-03  1.22141737e-03]
+shape: (32768,), min: -4.508799918088135, max: 9.710143405474643, mean: -0.0003017502867024937, std: 1.675190413354404
+________________________________________________________
+Executed in  123.38 mins    fish           external
+   usr time  107.63 mins    0.00 millis  107.63 mins
+   sys time    3.86 mins    1.97 millis    3.86 mins

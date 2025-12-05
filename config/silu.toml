@@ -1,0 +1,13 @@
+[fhe]
+log_N = 9
+scale_mod_size = 59
+first_mod_size = 60
+mult_depth = 10
+log_batch_size = 8
+
+secret_key_dist = "UNIFORM_TERNARY"
+key_switch_technique = "hybrid"
+scaling_technique = "FIXEDMANUAL"
+security_level = "HEStd_NotSet"
+
+level_budget = [3, 3]

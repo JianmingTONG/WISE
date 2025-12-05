@@ -1,0 +1,14 @@
+[build-system]
+requires = ["scikit-build-core>=0.10", "pybind11>=2.11", "cmake>=3.20", "ninja"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "fhecore"
+version = "0.1.0"
+description = "OpenFHE C++ bindings"
+requires-python = ">=3.9"
+authors = [{ name = "Yuhang" }]
+
+[tool.scikit-build]
+wheel.packages = ["fhecore"]
+build-dir = "build"

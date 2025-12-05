@@ -1,0 +1,18 @@
+[fhe]
+log_N = 14
+scale_mod_size = 39
+first_mod_size = 41
+mult_depth = 10
+log_batch_size = 13
+
+secret_key_dist = "UNIFORM_TERNARY"
+scaling_technique = "FIXEDAUTO"
+# scaling_technique = "FIXEDMANUAL"
+# scaling_technique = "FLEXIBLEAUTO"
+# scaling_technique = "FLEXIBLEAUTO"
+# scaling_technique = "FLEXIBLEAUTOEXT"
+security_level = "HEStd_128_classic"
+# security_level = "HEStd_NotSet"
+
+# level_budget = [3, 3]
+level_budget = []
