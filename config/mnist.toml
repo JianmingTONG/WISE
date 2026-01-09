@@ -1,14 +1,26 @@
 [fhe]
 log_N = 14
-scale_mod_size = 55
-first_mod_size = 59
+# COMPOSITESCALINGAUTO: OpenFHE auto-computes composite_degree from scale_mod_size / register_word_size
+# scale_mod_size = effective scaling factor bits (not individual prime size)
+# With scale_mod_size=56 and register_word_size=32:
+#   - composite_degree = ceil(56/32) = 2
+#   - Each small prime q_{l,j} fits in 32-bit registers
+#   - Effective scaling factor Δ ≈ 2^56 (high precision)
+scale_mod_size = 56
+first_mod_size = 60
+# 9 multiplicative levels for 9 operations
 mult_depth = 9
 log_batch_size = 13
-composite_degree = 1
 
 secret_key_dist = "UNIFORM_TERNARY"
-key_switch_technique = "hybrid"
-scaling_technique = "FIXEDMANUAL"
-# scaling_technique = "COMPOSITE"
+key_switch_technique = "HYBRID"
+# COMPOSITESCALINGAUTO handles composite scaling automatically
+scaling_technique = "COMPOSITESCALINGAUTO"
+# Disable security check for testing
 security_level = "HEStd_NotSet"
 level_budget = []
+
+# Target 32-bit registers (for TPU/GPU compatibility)
+register_word_size = 32
+# composite_degree is auto-computed by COMPOSITESCALINGAUTO, but we can specify it for reference
+composite_degree = 2

@@ -39,6 +39,10 @@ static ScalingTechnique map_scaling_technique(const std::string& s) {
         return FIXEDMANUAL;
     else if (s == "FLEXIBLEAUTOEXT")
         return FLEXIBLEAUTOEXT;
+    else if (s == "COMPOSITESCALINGAUTO")
+        return COMPOSITESCALINGAUTO;
+    else if (s == "COMPOSITESCALINGMANUAL")
+        return COMPOSITESCALINGMANUAL;
     else
         return FLEXIBLEAUTO;
 }
@@ -79,10 +83,20 @@ FHEContext::FHEContext(const FHEContext::Params& p): pimpl_(std::make_unique<Imp
     params.SetScalingModSize(p.scale_mod_size);
     params.SetBatchSize(1u << p.log_batch_size);
     params.SetRingDim(1u << p.log_N);
-    std::cerr << "composite_degree from params: " << p.composite_degree << std::endl;
-    // Use SetCompositeDegree to make each RescaleInPlace drop compositeDegree primes at once
-    // This only works with FLEXIBLE scaling techniques (FLEXIBLEAUTO, FLEXIBLEAUTOEXT)
-    if (p.composite_degree > 1) {
+    // For COMPOSITESCALINGAUTO: set register word size, OpenFHE auto-computes composite degree
+    // For other techniques with composite_degree > 1: manually set composite degree
+    if (scaling_technique == COMPOSITESCALINGAUTO || scaling_technique == COMPOSITESCALINGMANUAL) {
+        if (p.register_word_size > 0) {
+            params.SetRegisterWordSize(p.register_word_size);
+            std::cerr << "SetRegisterWordSize: " << p.register_word_size << std::endl;
+        }
+        // For COMPOSITESCALINGMANUAL, also set composite degree explicitly
+        if (scaling_technique == COMPOSITESCALINGMANUAL && p.composite_degree > 1) {
+            params.SetCompositeDegree(p.composite_degree);
+            std::cerr << "SetCompositeDegree: " << p.composite_degree << std::endl;
+        }
+    } else if (p.composite_degree > 1) {
+        // Legacy path for non-composite scaling techniques
         params.SetCompositeDegree(p.composite_degree);
         std::cerr << "SetCompositeDegree: " << p.composite_degree << std::endl;
     }
@@ -436,13 +450,10 @@ FHEContext::eval_linear_transform(const std::vector<std::shared_ptr<CiphertextHa
                 cc->EvalAddInPlace(outputs[i], t);
             }
 
-            // With FLEXIBLEAUTO + SetCompositeDegree, rescaling is handled automatically
-            // but we still call RescaleInPlace to trigger internal level adjustments
-            std::cerr << "  output[" << i << "] before rescale: level=" << outputs[i]->GetLevel()
-                      << ", noiseScaleDeg=" << outputs[i]->GetNoiseScaleDeg() << std::endl;
+            // With composite scaling (composite_degree > 1), each "level" consists of
+            // composite_degree primes. OpenFHE's RescaleInPlace drops the entire composite
+            // level when SetCompositeDegree is configured. We only call RescaleInPlace ONCE.
             cc->RescaleInPlace(outputs[i]);
-            std::cerr << "    after rescale: level=" << outputs[i]->GetLevel()
-                      << ", noiseScaleDeg=" << outputs[i]->GetNoiseScaleDeg() << std::endl;
 
             outputs_ptr[i] = std::make_shared<CiphertextHandle>();
             outputs_ptr[i]->mut() = std::move(outputs[i]);
@@ -582,7 +593,7 @@ FHEContext::eval_winograd(const std::vector<std::shared_ptr<CiphertextHandle>>& 
                 cc->EvalAddInPlace(outputs[i], t);
             }
 
-            // With FLEXIBLEAUTO + SetCompositeDegree, rescaling is handled automatically
+            // With composite scaling, RescaleInPlace drops the entire composite level
             cc->RescaleInPlace(outputs[i]);
 
             outputs_ptr[i] = std::make_shared<CiphertextHandle>();
@@ -830,9 +841,9 @@ FHEContext::eval_herpn(const std::vector<std::shared_ptr<CiphertextHandle>>& x, 
         cc->EvalSquareInPlace(cs[i]);
         // Step 3: x^2 + x1 (both at noiseScaleDeg=2)
         cc->EvalAddInPlace(cs[i], x1);
-        // Step 4: Rescale to bring back to noiseScaleDeg=1 (level increases by 1)
+        // Step 4: Rescale - with composite scaling, this drops the entire composite level
         cc->RescaleInPlace(cs[i]);
-        // Step 5: Add a0 (at level+1, noiseScaleDeg=1)
+        // Step 5: Add a0
         cc->EvalAddInPlace(cs[i], a0_ptxts[i]);
         outputs_ptr[i] = std::make_shared<CiphertextHandle>();
         outputs_ptr[i]->mut() = std::move(cs[i]);

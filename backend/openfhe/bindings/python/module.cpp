@@ -608,5 +608,6 @@ PYBIND11_MODULE(fhecore, m) {
         .def_readwrite("key_switch_technique", &FHEContext::Params::key_switch_technique)
         .def_readwrite("level_budget", &FHEContext::Params::level_budget) // std::vector<uint32_t>
         .def_readwrite("global_rots", &FHEContext::Params::global_rots) // std::vector<int32_t>
-        .def_readwrite("composite_degree", &FHEContext::Params::composite_degree);
+        .def_readwrite("composite_degree", &FHEContext::Params::composite_degree)
+        .def_readwrite("register_word_size", &FHEContext::Params::register_word_size);
 }

@@ -30,6 +30,7 @@ class FHEContext {
         std::vector<uint32_t> level_budget = {};
         std::vector<int32_t> global_rots = {};
         uint32_t composite_degree = 1;
+        uint32_t register_word_size = 0;  // For COMPOSITESCALINGAUTO: target word size (0 = default)
     };
 
     explicit FHEContext(const Params&);

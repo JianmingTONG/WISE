@@ -5,7 +5,8 @@
 
 from logging import NOTSET
 import torch
-from sagittarius.utils import (
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
+from sagittarius.core import (
     Batchnorm2d,
     Layer,
     Order,

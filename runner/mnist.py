@@ -4,7 +4,11 @@
 # dir  := .
 # kid  :=
 
-import fhecore
+import sys
+import importlib.util
+spec = importlib.util.spec_from_file_location('fhecore', '/home/ubuntu/WISE/backend/openfhe/bindings/python/build/fhecore.cpython-313-x86_64-linux-gnu.so')
+fhecore = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(fhecore)
 
 import numpy as np
 import tomllib
@@ -64,6 +68,8 @@ class FheCfg:
     scaling_technique: str
     security_level: str
     level_budget: List[int]
+    composite_degree: int
+    register_word_size: int
 
 @dataclass
 class Cfg:
@@ -83,6 +89,8 @@ def load_cfg(path=CONFIG_PATH) -> Cfg:
         scaling_technique=rf["scaling_technique"],
         security_level=rf["security_level"],
         level_budget=rf.get("level_budget"),
+        composite_degree=rf.get("composite_degree", 1),
+        register_word_size=rf.get("register_word_size", 0),
     )
     return Cfg(fhe=fhe)
 
@@ -106,6 +114,8 @@ def init():
     params.security_level = cfg.fhe.security_level
     params.level_budget = cfg.fhe.level_budget
     params.global_rots = global_rots
+    params.composite_degree = cfg.fhe.composite_degree
+    params.register_word_size = cfg.fhe.register_word_size
 
     ctx = fhecore.FHEContext(params)
     return ctx, converter
@@ -147,6 +157,10 @@ def eval(input_raw):
 
     x = ctx.encrypt_batch(input_raw.reshape(-1, N), 0)
 
+    # Level progression: 0→1→2→3→4→5→6→7→8
+    # With composite scaling (composite_degree > 1), each "level" consists of
+    # composite_degree primes. The level count stays the same; only the internal
+    # representation changes (each level = product of multiple small primes).
     x = eval_conv2d("conv1", 0)
     x = eval_activation("act1", 1)
     x = eval_conv2d("pool1", 2)
