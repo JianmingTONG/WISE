@@ -13,7 +13,7 @@ git clone https://github.com/openfheorg/openfhe-development.git
 cd openfhe-development/
 mkdir build
 cd build/
-cmake .. -DCMAKE_INSTALL_PREFIX="$HOME/opt/openfhe-1.4.2" -DCMAKE_BUILD_TYPE=Release
+cmake .. -DCMAKE_INSTALL_PREFIX="/home/ubuntu/openfhe_opt" -DCMAKE_BUILD_TYPE=Release
 make
 make install
 ```
@@ -22,7 +22,7 @@ make install
 ```sh
 git clone git@github.com:winograd-he/winograd-framework.git
 pip install -e .
-CMAKE_ARGS="-DOpenFHE_DIR=$HOME/opt/openfhe-1.4.2/lib/OpenFHE" pip install -e backend/openfhe/bindings/python
+CMAKE_ARGS="-DOpenFHE_DIR=/home/ubuntu/openfhe_opt/lib/OpenFHE" pip install -e backend/openfhe/bindings/python
 ```
 
 ## example
@@ -39,5 +39,5 @@ CMAKE_ARGS="-DOpenFHE_DIR=$HOME/opt/openfhe-1.4.2/lib/OpenFHE" pip install -e ba
 3. Run evaluator
     ```sh
     cd runner
-    LD_LIBRARY_PATH="$HOME/opt/openfhe-1.4.2/lib:$LD_LIBRARY_PATH" python3 mnist.py
+    LD_LIBRARY_PATH="/home/ubuntu/openfhe_opt/lib:$LD_LIBRARY_PATH" python3 mnist.py --mode winograd
     ```

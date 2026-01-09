@@ -60,7 +60,7 @@ FHEContext::~FHEContext() = default;
 FHEContext::FHEContext(FHEContext&&) noexcept = default;
 FHEContext& FHEContext::operator=(FHEContext&&) noexcept = default;
 
-FHEContext::FHEContext(const FHEContext::Params& p): pimpl_(std::make_unique<Impl>()), slots_(1u << p.log_batch_size) {
+FHEContext::FHEContext(const FHEContext::Params& p): pimpl_(std::make_unique<Impl>()), slots_(1u << p.log_batch_size), composite_degree_(p.composite_degree) {
     CCParams<CryptoContextCKKSRNS> params;
     auto secret_key_dist = map_secret_key_dist(p.secret_key_dist);
     auto security_level = map_security_level(p.security_level);
@@ -79,6 +79,13 @@ FHEContext::FHEContext(const FHEContext::Params& p): pimpl_(std::make_unique<Imp
     params.SetScalingModSize(p.scale_mod_size);
     params.SetBatchSize(1u << p.log_batch_size);
     params.SetRingDim(1u << p.log_N);
+    std::cerr << "composite_degree from params: " << p.composite_degree << std::endl;
+    // Use SetCompositeDegree to make each RescaleInPlace drop compositeDegree primes at once
+    // This only works with FLEXIBLE scaling techniques (FLEXIBLEAUTO, FLEXIBLEAUTOEXT)
+    if (p.composite_degree > 1) {
+        params.SetCompositeDegree(p.composite_degree);
+        std::cerr << "SetCompositeDegree: " << p.composite_degree << std::endl;
+    }
 
     pimpl_->cc = GenCryptoContext(params);
     auto& cc = pimpl_->cc;
@@ -123,8 +130,10 @@ std::string FHEContext::encode_plaintext_bytes(const std::vector<double>& values
 std::shared_ptr<CiphertextHandle> FHEContext::encrypt(const std::vector<double>& v, uint32_t level) const {
     if (v.size() != slots_) [[unlikely]] { throw std::invalid_argument("encrypt: len != slots"); }
     auto& cc = pimpl_->cc;
-    std::cerr << "encrypt at level: " << level << std::endl;
-    auto pt = cc->MakeCKKSPackedPlaintext(v, 1, level);
+    // With FLEXIBLEAUTO, always encrypt at level 0 (maximum depth)
+    // The level parameter is ignored - OpenFHE manages levels automatically
+    std::cerr << "encrypt at level: 0 (FLEXIBLEAUTO mode)" << std::endl;
+    auto pt = cc->MakeCKKSPackedPlaintext(v, 1, 0);
     auto h = std::make_shared<CiphertextHandle>();
     h->mut() = cc->Encrypt(pimpl_->keys.publicKey, pt);
     return h;
@@ -349,7 +358,9 @@ std::vector<Ciphertext<DCRTPoly>> mat_x_vec(const CryptoContext<DCRTPoly>& cc,
                 int gs = mat[bx][by].diags[i].gs;
 
                 auto pack_time_start = std::chrono::high_resolution_clock::now();
-                Plaintext ptxt = cc->MakeCKKSPackedPlaintext(mat[bx][by].diags[i].data, 1, level);
+                // With FLEXIBLEAUTO, create plaintexts at depth 0 (level 0)
+                // OpenFHE automatically adjusts levels during operations
+                Plaintext ptxt = cc->MakeCKKSPackedPlaintext(mat[bx][by].diags[i].data, 1, 0);
                 auto pack_time_end = std::chrono::high_resolution_clock::now();
                 pack_time += std::chrono::duration<double>(pack_time_end - pack_time_start).count();
 
@@ -410,7 +421,8 @@ FHEContext::eval_linear_transform(const std::vector<std::shared_ptr<CiphertextHa
     {
         auto time_start = std::chrono::high_resolution_clock::now();
         std::vector<Plaintext> bias_ptxts(lt.T_rows);
-        for (int i = 0; i < lt.T_rows; ++i) { bias_ptxts[i] = cc->MakeCKKSPackedPlaintext(lt.bias[i], 1, level); }
+        // With FLEXIBLEAUTO, create plaintexts at depth 0 (level 0)
+        for (int i = 0; i < lt.T_rows; ++i) { bias_ptxts[i] = cc->MakeCKKSPackedPlaintext(lt.bias[i], 1, 0); }
         auto time_end = std::chrono::high_resolution_clock::now();
         pack_time += std::chrono::duration<double>(time_end - time_start).count();
         if (lt.T_rows != 1 && lt.output_rotations != 0) [[unlikely]] {
@@ -424,7 +436,13 @@ FHEContext::eval_linear_transform(const std::vector<std::shared_ptr<CiphertextHa
                 cc->EvalAddInPlace(outputs[i], t);
             }
 
+            // With FLEXIBLEAUTO + SetCompositeDegree, rescaling is handled automatically
+            // but we still call RescaleInPlace to trigger internal level adjustments
+            std::cerr << "  output[" << i << "] before rescale: level=" << outputs[i]->GetLevel()
+                      << ", noiseScaleDeg=" << outputs[i]->GetNoiseScaleDeg() << std::endl;
             cc->RescaleInPlace(outputs[i]);
+            std::cerr << "    after rescale: level=" << outputs[i]->GetLevel()
+                      << ", noiseScaleDeg=" << outputs[i]->GetNoiseScaleDeg() << std::endl;
 
             outputs_ptr[i] = std::make_shared<CiphertextHandle>();
             outputs_ptr[i]->mut() = std::move(outputs[i]);
@@ -547,7 +565,8 @@ FHEContext::eval_winograd(const std::vector<std::shared_ptr<CiphertextHandle>>& 
     {
         auto time_start = std::chrono::high_resolution_clock::now();
         std::vector<Plaintext> bias_ptxts(wino.bias.size());
-        for (int i = 0; i < wino.bias.size(); ++i) { bias_ptxts[i] = cc->MakeCKKSPackedPlaintext(wino.bias[i], 1, level); }
+        // With FLEXIBLEAUTO, create plaintexts at depth 0 (level 0)
+        for (int i = 0; i < wino.bias.size(); ++i) { bias_ptxts[i] = cc->MakeCKKSPackedPlaintext(wino.bias[i], 1, 0); }
         auto time_end = std::chrono::high_resolution_clock::now();
         pack_time += std::chrono::duration<double>(time_end - time_start).count();
 
@@ -563,6 +582,7 @@ FHEContext::eval_winograd(const std::vector<std::shared_ptr<CiphertextHandle>>& 
                 cc->EvalAddInPlace(outputs[i], t);
             }
 
+            // With FLEXIBLEAUTO + SetCompositeDegree, rescaling is handled automatically
             cc->RescaleInPlace(outputs[i]);
 
             outputs_ptr[i] = std::make_shared<CiphertextHandle>();
@@ -726,6 +746,7 @@ FHEContext::eval_bootstrap_batch(const std::vector<std::shared_ptr<CiphertextHan
             throw std::invalid_argument("eval_bootstrap_in_place_batch: null handle at index " + std::to_string(i));
         }
         auto t = cc->EvalBootstrap(x[i]->get());
+        // With SetCompositeDegree, a single RescaleInPlace drops compositeDegree primes
         cc->RescaleInPlace(t);
         y[i] = std::make_shared<CiphertextHandle>();
         y[i]->mut() = t;
@@ -768,6 +789,17 @@ FHEContext::eval_herpn(const std::vector<std::shared_ptr<CiphertextHandle>>& x, 
     auto& cc = pimpl_->cc;
     std::vector<Ciphertext<DCRTPoly>> cs(n);
     for (size_t i = 0; i < n; ++i) { cs[i] = x[i]->get(); }
+
+    // Debug: print input ciphertext state
+    std::cerr << "herpn input state:" << std::endl;
+    for (size_t i = 0; i < std::min(n, size_t(2)); ++i) {
+        std::cerr << "  x[" << i << "]: level=" << cs[i]->GetLevel()
+                  << ", noiseScaleDeg=" << cs[i]->GetNoiseScaleDeg()
+                  << ", numTowers=" << cs[i]->GetElements()[0].GetNumOfElements() << std::endl;
+    }
+    std::cerr << "  creating a0 at level=" << (level + 1) << ", a1 at level=" << level << std::endl;
+    std::cerr << "  mult_depth=" << this->depth_ << std::endl;
+
     double pack_time = 0.0;
     int num_adds = 0;
     int num_mults_cc = 0;
@@ -778,8 +810,12 @@ FHEContext::eval_herpn(const std::vector<std::shared_ptr<CiphertextHandle>>& x, 
     {
         auto time_start = std::chrono::high_resolution_clock::now();
         for (size_t i = 0; i < n; ++i) {
-            a0_ptxts[i] = cc->MakeCKKSPackedPlaintext(hp.a0[i], 1, level);
-            a1_ptxts[i] = cc->MakeCKKSPackedPlaintext(hp.a1[i], 1, level);
+            // With FLEXIBLEAUTO, create plaintexts at depth 0 (level 0)
+            // OpenFHE will automatically adjust levels during operations
+            // a1 is multiplied with x (noiseScaleDeg=1)
+            // a0 is added after rescaling
+            a0_ptxts[i] = cc->MakeCKKSPackedPlaintext(hp.a0[i], 1, 0);
+            a1_ptxts[i] = cc->MakeCKKSPackedPlaintext(hp.a1[i], 1, 0);
         }
         auto time_end = std::chrono::high_resolution_clock::now();
         pack_time += std::chrono::duration<double>(time_end - time_start).count();
@@ -787,11 +823,17 @@ FHEContext::eval_herpn(const std::vector<std::shared_ptr<CiphertextHandle>>& x, 
 
     std::vector<std::shared_ptr<CiphertextHandle>> outputs_ptr(n);
     for (size_t i = 0; i < n; ++i) {
+        // Polynomial evaluation: x^2 + a1*x + a0
+        // Step 1: x1 = x * a1 (noiseScaleDeg becomes 2)
         auto x1 = cc->EvalMult(cs[i], a1_ptxts[i]);
+        // Step 2: x^2 (noiseScaleDeg becomes 2)
         cc->EvalSquareInPlace(cs[i]);
+        // Step 3: x^2 + x1 (both at noiseScaleDeg=2)
         cc->EvalAddInPlace(cs[i], x1);
-        cc->EvalAddInPlace(cs[i], a0_ptxts[i]);
+        // Step 4: Rescale to bring back to noiseScaleDeg=1 (level increases by 1)
         cc->RescaleInPlace(cs[i]);
+        // Step 5: Add a0 (at level+1, noiseScaleDeg=1)
+        cc->EvalAddInPlace(cs[i], a0_ptxts[i]);
         outputs_ptr[i] = std::make_shared<CiphertextHandle>();
         outputs_ptr[i]->mut() = std::move(cs[i]);
     }

@@ -4,16 +4,11 @@ scale_mod_size = 55
 first_mod_size = 59
 mult_depth = 9
 log_batch_size = 13
+composite_degree = 1
 
 secret_key_dist = "UNIFORM_TERNARY"
 key_switch_technique = "hybrid"
-# scaling_technique = "FIXEDAUTO"
 scaling_technique = "FIXEDMANUAL"
-# scaling_technique = "FLEXIBLEAUTO"
-# scaling_technique = "FLEXIBLEAUTO"
-# scaling_technique = "FLEXIBLEAUTOEXT"
-# security_level = "HEStd_128_classic"
+# scaling_technique = "COMPOSITE"
 security_level = "HEStd_NotSet"
-
-# level_budget = [3, 3]
 level_budget = []
